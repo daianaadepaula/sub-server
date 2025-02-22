@@ -1,15 +1,18 @@
 import { eq } from 'drizzle-orm'
 import { db } from '../drizzle/client'
 import { subscriptions } from '../drizzle/schema/subscriptions'
+import { redis } from '../redis/client'
 
 interface SubscribeToEventParams {
   name: string
-  email: string
+	email: string
+	referrerId?: string | null
 }
 
 export async function subscribeToEvent({
   name,
-  email,
+	email,
+	referrerId,
 }: SubscribeToEventParams) {
 
 	const subscribes = await db
@@ -27,7 +30,11 @@ export async function subscribeToEvent({
       name,
       email,
     })
-    .returning()
+		.returning()
+	
+	if (referrerId) {
+		await redis.zincrby('referral:ranking', 1, referrerId)
+	}
 
   const subscriber = result[0]
 
