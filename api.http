@@ -13,3 +13,7 @@ GET   http://localhost:3333/invites/maria
 ###
 
 GET   http://localhost:3333/invites/
+
+###
+
+GET   http://localhost:3333/subscribers/maria/ranking/clicks
