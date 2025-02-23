@@ -1,13 +1,13 @@
 import { redis } from '../redis/client'
 
 interface GetSubscriberInviteClicksParams {
-	subscriberId: string
+  subscriberId: string
 }
 
 export async function getSubscriberInviteClicks({
-	subscriberId,
+  subscriberId,
 }: GetSubscriberInviteClicksParams) {
-	const count = await redis.hget('referral:access-count', subscriberId)
+  const count = await redis.hget('referral:access-count', subscriberId)
 
-	return {count: count ? Number.parseInt(count) : 0}
+  return { count: count ? Number.parseInt(count) : 0 }
 }
